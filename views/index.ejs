@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Members Club</title>
+</head>
+<body>
+
+<h1>Messages</h1>
+
+<% if (!user) { %>
+  <a href="/users/login">Login</a>
+  <a href="/users/signup">Signup</a>
+<% } else { %>
+  <p>Welcome <%= user.first_name %></p>
+  <a href="/messages/create-page">Create Message</a>
+<% } %>
+
+<hr>
+
+<% messages.forEach(msg => { %>
+  <div>
+    <h3><%= msg.title %></h3>
+    <p><%= msg.text %></p>
+
+    <% if (msg.author) { %>
+      <small>
+        By <%= msg.author %> at <%= msg.created_at %>
+      </small>
+    <% } %>
+
+    <% if (user && user.is_admin) { %>
+      <form method="POST" action="/messages/<%= msg.id %>?_method=DELETE">
+        <button>Delete</button>
+      </form>
+    <% } %>
+
+  </div>
+  <hr>
+<% }) %>
+
+</body>
+</html>
