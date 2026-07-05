@@ -23,7 +23,16 @@ app.use(
     }
   })
 );
+app.get("/", async (req, res) => {
+  const messageModel = require("./models/messageModel");
 
+  const messages = await messageModel.getAllMessages();
+
+  res.render("index", {
+    messages,
+    user: req.user || null,
+  });
+});
 // PASSPORT setup
 app.use(passport.initialize());
 app.use(passport.session());
